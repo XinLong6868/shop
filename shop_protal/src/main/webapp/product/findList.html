@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>商品列表</title>
+    <link href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+    </div>
+</div>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        initProductList();
+    })
+    function initProductList() {
+        $.ajax({
+            type:"post",
+            /*一旦使用HttpClient 中间的请求路径就是向本项目发送请求*/
+            url:"/protal/product/findList.action",
+            success:function (result) {
+                console.log(result)
+                var v_productList = result.data;
+                for (var i = 0; i < v_productList.length; i++) {
+                    var v_product = v_productList[i];
+                    var item = "<div class=\"col-sm-6 col-md-4\">\n" +
+                        "    <div class=\"thumbnail\">\n" +
+                        "      <img width=\"100px\" height=\"100px\" src=\"http://192.168.1.28:8080" + v_product.productImagePath + "\" alt=\"...\">\n" +
+                        "      <div class=\"caption\">\n" +
+                        "        <h3>"+v_product.productName+"</h3>\n" +
+                        "        <p>"+v_product.productprivace+"</p>\n" +
+                        "        <p>" +
+                        "          <a href=\"#\" class=\"btn btn-primary\" role=\"button\">图片删除</a> " +
+                        "          <a href=\"#\" class=\"btn btn-default\" role=\"button\">图片更换</a>" +
+                        "         </p>\n" +
+                        "      </div>\n" +
+                        "    </div>\n" +
+                        "  </div>"
+                    $(".container-fluid .row").append(item);
+                }
+            }
+        }).done().fail(function(){
+            alert('网络不行，请求错误')
+        })
+    }
+</script>
+</body>
+</html>

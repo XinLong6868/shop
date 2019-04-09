@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.brand.IBrandMapper">
+	<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<resultMap id="brandTextMap" type="brandText">
+		<result column="id" property="id"/>
+		<result column="brandName" property="brandName"/>
+		<result column="updateBrandTime" property="updateBrandTime"/>
+		<result column="createBrandTime" property="createBrandTime"/>
+	</resultMap>
+	<!-- 条件查询要用的条件字段 -->
+	<sql id="brandTextWhere">
+			<where>
+				<if test="brandName != null and brandName !=''">
+					brandName like concat('%',#{brandName},'%')
+				</if>
+				<if test="mincreateBrandTime !=null and maxcreateBrandTime !=null">
+					and createBrandTime between #{mincreateBrandTime} and #{maxcreateBrandTime}
+			</if>
+			</where>
+	</sql>
+	<insert id="addBrand" parameterType="brandText">
+			insert into t_brand (brandName,updateBrandTime,createBrandTime) values (#{brandName},#{updateBrandTime},#{createBrandTime})
+	</insert>
+	
+	<select id="listBrand" resultType="brandText">
+			select t.* from(
+			select id,brandName,updateBrandTime,createBrandTime from t_brand
+			<include refid="brandTextWhere"></include>
+			order by id asc) t
+			limit #{startPos},#{pageSize}
+	</select>
+	
+	<delete id="deleteBrandID" parameterType="int">
+			delete from t_brand where id=#{value}
+	</delete>
+	
+	<delete id="deleteBatchBrand">
+		delete from t_brand where id in 
+		<foreach collection="list" item="b" open="(" close=")" separator=",">
+			#{b}
+		</foreach>
+	</delete>
+	
+	<select id="findbrand" parameterType="int" resultMap="brandTextMap">
+		select id,brandName,updateBrandTime,createBrandTime from t_brand where id=#{value}
+	</select>
+	
+	<update id="updateBrandText" parameterType="brandText">
+		update t_brand set brandName=#{brandName},updateBrandTime=#{updateBrandTime} where id=#{id}	
+	</update>
+	
+	<select id="findBrandListCount" parameterType="brandText" resultType="long">
+		select count(*) from t_brand
+		<include refid="brandTextWhere"></include>
+	</select>
+	
+	<select id="findBradTextList" resultType="brandText">
+		select id,brandName from t_brand
+	</select>
+</mapper>

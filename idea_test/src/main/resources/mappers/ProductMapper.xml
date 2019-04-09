@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.backend.mapper.product.IProductMapper">
+
+	<insert id="addProduct" parameterType="product">
+			<selectKey resultType="int" keyProperty="id" order="AFTER">
+				select last_insert_id();
+			</selectKey>
+			insert into t_producttwo (productName,productprivace,updateTime,createTime,brandId,productImagePath) values (#{productName},#{productprivace},#{updateTime},#{createTime},#{brandText.id},#{productImagePath})
+	</insert>
+	<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<resultMap id="productMap" type="product">
+		<result column="id" property="id"/>
+		<result column="productName" property="productName"/>
+		<result column="productprivace" property="productprivace"/>
+		<result column="brandName" property="brandText.brandName"></result>
+		<result column="brandId" property="brandText.id"></result>
+		<result column="productImagePath" property="productImagePath"></result>
+	</resultMap>
+	<!-- 条件查询要用的条件字段 -->
+	<sql id="productWhere">
+			<where>
+				<if test="productName != null and productName !=''">
+					productName like concat('%',#{productName},'%')
+				</if>
+				<if test="minprivace !=null and minprivace >= 0">
+					and productprivace >=#{minprivace}
+				</if>
+				<if test="maxprivace !=null and maxprivace >= 0">
+					and productprivace &lt;=#{maxprivace}
+				</if>
+				<if test="minupdateTime !=null and maxupdateTime !=null">
+					and updateTime between #{minupdateTime} and #{maxupdateTime}
+				</if>
+				<if test="brandText.id !=null and brandText.id > 0">
+					and brandId = #{brandText.id}
+				</if>
+			</where>
+	</sql>
+
+
+	<select id="findProductList" parameterType="product" resultMap="productMap">
+		select
+		p.id,p.productName,p.productprivace,p.createTime,p.updateTime,b.brandName
+		from t_producttwo p
+		left join t_brand b on p.brandId = b.id
+		<include refid="productWhere"></include>
+	</select>
+    <!--普通接口-->
+    <select id="findAllProductList" resultMap="productMap">
+          SELECT id,productName,productprivace,productImagePath from t_producttwo
+    </select>
+
+
+	<select id="listProduct" parameterType="product" resultMap="productMap">
+			select t.* from(
+			select
+			p.id,p.productName,p.productprivace,p.updateTime,p.createTime,b.brandName,p.productImagePath
+			from t_producttwo p
+			left join t_brand b on p.brandId = b.id
+			<include refid="productWhere"></include>
+			<if test="sortField !=null and sortField !=''">
+			order by ${sortField} ${sort}
+			</if>
+			<if test="sortField ==null or sortField ==''">
+			order by p.id desc
+			</if>
+			) t
+			limit #{startPos},#{pageSize}
+
+</select>
+
+<delete id="deleteProductID" parameterType="int">
+    delete from t_producttwo where id=#{value}
+</delete>
+
+<delete id="deleteBatchProduct">
+delete from t_producttwo where id in
+<foreach collection="list" item="a" open="(" close=")" separator=",">
+    #{a}
+</foreach>
+</delete>
+
+<select id="findproduct" parameterType="int" resultMap="productMap">
+select id,productName,productprivace,brandId,productImagePath from t_producttwo where id=#{value}
+</select>
+
+<update id="updateProduct" parameterType="product">
+update t_producttwo set productName=#{productName},productprivace=#{productprivace},brandId=#{brandText.id},productImagePath=#{productImagePath} where id=#{id}
+</update>
+
+<select id="findProductListCount" parameterType="product" resultType="long">
+select count(*) from t_producttwo p
+left join t_brand b on p.brandId = b.id
+<include refid="productWhere"></include>
+</select>
+
+<select id="selectMaxId" resultType="int">
+select max(id) from t_producttwo
+</select>
+</mapper>

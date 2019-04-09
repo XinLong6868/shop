@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.api.student.mapper.StudentMapper">
+
+    <insert id="addStudent" parameterType="com.fh.shop.api.student.po.Student">
+        insert into t_restful (stuName,stuAge,birthday)
+        values (#{stuName},#{stuAge},#{birthday})
+  </insert>
+
+    <delete id="deleteStudent" parameterType="int">
+        delete from t_restful where id=#{value}
+    </delete>
+
+    <select id="findStudent" parameterType="int" resultType="com.fh.shop.api.student.po.Student">
+        select id,stuName,stuAge,birthday from t_restful where id=#{value}
+    </select>
+
+    <update id="updateStudent" parameterType="com.fh.shop.api.student.po.Student">
+        update t_restful set stuName=#{stuName},stuAge=#{stuAge},birthday=#{birthday}
+        where id=#{id}
+    </update>
+</mapper>

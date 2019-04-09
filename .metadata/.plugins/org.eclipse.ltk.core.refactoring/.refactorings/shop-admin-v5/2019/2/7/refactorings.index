@@ -1,0 +1,12 @@
+1550215247690	Delete element
+1550216874659	Delete element
+1550217177119	Extract local variable 'user'
+1550218969884	Extract local variable 'contextPath'
+1550219015569	Extract local variable 'servletPath'
+1550219080145	Extract local variable 'requestURI'
+1550219239740	Extract local variable 'requestURL'
+1550221302918	Extract local variable 'user'
+1550231201437	Extract local variable 'servletPath'
+1550231239363	Extract local variable 'requestURI'
+1550231437245	Extract local variable 'user'
+1550236024999	Rename type 'log'

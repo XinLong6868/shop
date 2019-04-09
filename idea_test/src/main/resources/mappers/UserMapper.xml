@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.user.IUserInfoMapper">
+<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<!-- 数据库字段 -->
+	<select id="findUSerInfoName"  resultType="com.fh.shop.backend.po.user.UserInfo" parameterType="java.lang.String">
+		select id,userName,userPwd,salt,lastLoginTime,loginCount,errorLoginCount,errorLoginTime from t_userto where userName=#{userName}
+	</select>
+
+	<insert id="addUserInfo" parameterType="userInfo">
+		insert into t_userto (userName,userPwd,lastLoginTime,salt,erroeLoginTime,errorLoginCount) values (#{userName},#{userPwd},#{salt},#{lastLoginTime},#{erroeLoginTime},#{errorLoginCount})
+	</insert>
+
+	<update id="updatelastLoginTime" parameterType="userInfo">
+		update t_userto set lastLoginTime=#{lastLoginTime} where id=#{id}
+	</update>
+
+	<update id="resetLoginCount" parameterType="int">
+		update t_userto set loginCount=1 where id=#{value}
+	</update>
+
+	<update id="increaseLoginCount" parameterType="int">
+		update t_userto set loginCount=loginCount+1 where id=#{value}
+	</update>
+
+	<update id="updateLoginErrorInfo">
+		update t_userto set errorLoginTime=#{currDate},errorLoginCount=1 where id=#{id}
+	</update>
+
+	<update id="updateLoginErrorCount">
+		update t_userto set errorLoginTime=#{currDate},errorLoginCount=errorLoginCount+1 where id=#{id}
+	</update>
+
+	<update id="resetErrorLoginCount" parameterType="int">
+		update t_userto set errorLoginCount=0 where id=#{id}
+	</update>
+	<!--获取分页列表-->
+	<select id="findUserPageList" parameterType="userInfo" resultType="userInfo">
+		select t.* from (
+		select u.id,userName,userRealName,sex,salary,birthday,deptName from t_userto u
+		left join t_dept d on deptId = d.id) t
+		limit #{start},#{length}
+	</select>
+	<!--获取总条数-->
+	<select id="findUserListCount" parameterType="userInfo" resultType="long">
+		select count(*) from t_userto
+	</select>
+
+</mapper>

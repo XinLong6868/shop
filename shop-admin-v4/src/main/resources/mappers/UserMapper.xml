@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.user.IUserInfoMapper">
+<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<resultMap id="userInfoMap" type="userInfo">
+		<result column="id" property="id"/>
+		<result column="userName" property="userName"/>
+		<result column="userPwd" property="userPwd"/>
+	</resultMap>
+	<!-- <select id="loginUserInfo"  resultType="userInfo" parameterType="String">
+		select id,userName,userPwd from t_user where userName=#{userName}
+	</select> -->
+	
+	<select id="findUSerInfoName" resultType="userInfo" parameterType="String">
+		select id,userName,userPwd from t_user where userName=#{value}
+	</select>
+</mapper>

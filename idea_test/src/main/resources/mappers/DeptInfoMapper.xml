@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.dept.IDeptMapper">
+	<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<select id="findList" resultType="deptInfo">
+		select id,deptName,remark,pid from t_dept
+	</select>
+
+	<insert id="addListDeptInfo" parameterType="deptInfo">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into t_dept (deptName,remark,pid) values (#{deptName},#{remark},#{pid})
+	</insert>
+	
+	<delete id="deleteDeptInfo">
+		delete from t_dept where id in 
+		<foreach collection="list" separator="," open="(" close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="updateListDeptInfo" parameterType="deptInfo">
+		update t_dept set deptName=#{deptName},remark=#{remark} where id=#{id}
+	</update>
+</mapper>

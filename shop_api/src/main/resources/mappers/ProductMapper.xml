@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.api.product.mapper.IProductMapper">
+
+    <!--普通接口-->
+    <select id="findAllProductList" resultType="com.fh.shop.api.product.po.Product">
+          SELECT id,productName,productprivace,productImagePath from t_producttwo
+    </select>
+
+</mapper>

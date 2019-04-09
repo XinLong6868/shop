@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>商品列表</title>
+    <link rel="stylesheet" type="text/css" href="/js/dataTable/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap.min.css"/>
+    <link href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet" media="screen">
+</head>
+<body>
+
+<div class="container-fluid" style="padding-left: 0px;">
+    <div class="row">
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <form class="form-horizontal" id="productFrom" method="post">
+                        <fieldset>
+                            <div style="width: 100%;background: lightskyblue">
+                                <legend>商品表条件查询</legend>
+                            </div>
+                            <div class="form-group">
+                                <label for="productName" class="col-md-2 control-label">商品名称</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="productName" placeholder="text">
+                                </div>
+                                <label class="col-md-2 control-label">商品价格</label>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="input-sm form-control" id="minPrice"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-yen" aria-hidden="true"></span>
+                                        </span>
+                                        <input type="text" class="input-sm form-control" id="maxPrice"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">录入时间</label>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="input-sm form-control form_datetime" id="minEntryTime"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-dashboard" aria-hidden="true" ></span>
+                                        </span>
+                                        <input type="text" class="input-sm form-control form_datetime" id="maxEntryTime"/>
+                                    </div>
+                                </div>
+                                <label class="col-md-2 control-label">修改时间</label>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="input-sm form-control form_datetime"
+                                               id="minUpdateTime"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+                                        </span>
+                                        <input type="text" class="input-sm form-control form_datetime"
+                                               id="maxUpdateTime"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--下拉框-->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商品品牌</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" name="brandName">
+                                        <option value="-1">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4 tips"></div>
+                            </div>
+
+                        </fieldset>
+                        <div style="text-align: center">
+                            <button type="button" class="btn btn-primary btn-lg active" onclick="search()"><span
+                                    class="glyphicon glyphicon-ok" aria-hidden="true"></span>查询
+                            </button>
+                            <button type="button" class="btn btn-default btn-lg active"><span
+                                    class="glyphicon glyphicon-refresh" aria-hidden="true"></span>重置
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div style="background: darkgrey;text-align: right;margin-top: 25px">
+                <button type="button" class="btn btn-info btn-lg active" onclick="toAddProduct();"><span
+                        class="glyphicon glyphicon-pencil" aria-hidden="true"></span>添加商品
+                </button>
+                <button type="button" class="btn btn-danger btn-lg active" onclick="deleteMany();"><span
+                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
+                </button>
+
+            </div>
+            <div class="panel panel-primary">
+
+                <div class="panel-body" style="background: lightskyblue">
+                    商品列表
+                </div>
+                <div class="panel-footer">
+                    <table id="productTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>复选框</th>
+                            <th>序号</th>
+                            <th>商品名称</th>
+                            <th>商品价格</th>
+                            <th>录入时间</th>
+                            <th>修改时间</th>
+                            <th>品牌</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--添加商品-->
+<div id="addProduct" style="display: none">
+
+    <form class="form-horizontal" method="post">
+        <!--<input type="text" id="fatherId">-->
+        <div class="form-group">
+            <label class="col-md-2 control-label">商品名称</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="text" id="add_productName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">商品价格</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="text" id="add_productPrice">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品品牌</label>
+            <div class="col-sm-4">
+                <select class="form-control" name="brandName">
+                    <option value="-1">请选择</option>
+                </select>
+            </div>
+            <div class="col-sm-4 tips"></div>
+        </div>
+
+    </form>
+</div>
+<!--修改商品-->
+<div id="updateProduct" style="display: none">
+
+    <form class="form-horizontal" method="post">
+        <input type="text" id="update_id">
+        <div class="form-group">
+            <label class="col-md-2 control-label">商品名称</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="text" id="update_productName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">商品价格</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="text" id="update_productPrice">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品品牌</label>
+            <div class="col-sm-4">
+                <select class="form-control" name="brandName">
+                    <option value="-1">请选择</option>
+                </select>
+            </div>
+            <div class="col-sm-4 tips"></div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/myjs/common.js"></script>
+<script type="text/javascript" src="/js/myjs/shop.js"></script>
+<script type="text/javascript" src="/js/dataTable/datatables.min.js"></script>
+<script type="text/javascript" src="/js/dataTable/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/dataTable/DataTables-1.10.18/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript"
+        src="/js/bootstrap-datetimepicker-master/js/moment-with-locales.js"></script>
+<script type="text/javascript"
+        src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+
+<!--bootbox-->
+<script src="/js/bootbox/bootbox.min.js"></script>
+<script src="/js/bootbox/bootbox.locales.min.js"></script>
+<script src="/js/bootstrap/js/bootstrap.min.js"></script>
+</body>
+<script>
+    $(document).ready(function () {
+        initProductTable();//初始化商品信息
+        initDateTime();//初始化时间
+        initBrandList("brandName");//初始化品牌信息
+        initCheckBox()//行选中变色
+    });
+
+    //初始化时间
+    function initDateTime() {
+        $(".form_datetime").datetimepicker({
+            // 'yyyy-mm-dd hh:ii:ss'精确到时分秒
+            format: 'yyyy-mm-dd 00:00:00',
+            language: 'zh-CN',
+            showClear:true,
+            clealBen:true
+        });
+    }
+
+    //初始化商品信息
+    var v_productTable;
+    function initProductTable() {
+        v_productTable = $('#productTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/app/findProductList.jhtml",
+                "type":"post",
+                //用于处理服务器端返回的数据。 dataSrc是DataTable特有的
+                dataSrc: function (result) {
+                    //把dataTable里的数据是放在最外面的data里 所以要提取出来
+                    //这样result.data.data就能取到值了 否则前台数据能显示出来但是分页插件不显示几页几条
+                    result.draw=result.data.draw;
+                    result.recordsFiltered=result.data.recordsFiltered;
+                    result.recordsTotal=result.data.recordsTotal;
+                    return result.data.data;
+                }
+            },
+            //支持动态传参 参数可不传
+            "fnDrawCallback": function () {
+                //获取当前页面表格里面所有行的复选框 并循环
+                $("#productTable tbody tr input[type='checkbox']").each(function () {
+                    //获取复选框的值
+                    var v_checkboxId = $(this).val();
+                    //这个回显的方法是由返回值的 true  false
+                    if (isExists(v_checkboxId)) {
+                        //复选框 行变色都回显  closest获取父级元素
+                        $(this).closest("tr").css("background", "cornsilk");
+                        this.checked = true;
+                    }
+
+                })
+            },
+            "order":[],
+            "columns": [
+                {
+                    data: 'id',
+                    "ordertable":false,
+                    "render": function (data, type, row, mate) {
+                        return "<input type='checkbox' value='" + data + "'/>"
+                    },
+                },
+                {data: 'id'},
+                {data: 'productName'},
+                {data: 'productPrice'},
+                //渲染日期
+                {
+                    data: 'entryTime',
+                    "render": function (data, type, row, meta) {
+                        //时间格式化
+                        var date = new Date(data);
+                        var y = date.getFullYear();
+                        var M = date.getMonth() + 1;
+                        var d = date.getDate();
+                        var H = date.getHours();
+                        var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        return y + '-' + M + '-' + d + '  ' + H + ':' + m + ':' + s;
+                    }
+                },
+                {
+                    data: 'updateTime',
+                    "render": function (data, type, row, meta) {
+                        //时间格式化
+                        var date = new Date(data);
+                        var y = date.getFullYear();
+                        var M = date.getMonth() + 1;
+                        var d = date.getDate();
+                        var H = date.getHours();
+                        var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        return y + '-' + M + '-' + d + '  ' + H + ':' + m + ':' + s;
+                    }
+                },
+
+                {data: 'brandName'},
+
+                {
+                    data: 'id',
+                    //渲染按钮
+                    "render": function (data) {
+                        return "<div class='btn-group' role='group' aria-label='...'>" +
+                            "  <button type='button' class='btn btn-info dropdown-toggle' onclick='updateProduct(\"" + data + "\")'>修改</button>" +
+                            "  <button type='button' class='btn btn-danger dropdown-toggle' onclick='deleteProduct(\"" + data + "\")'>删除</button>" +
+                            "</div>"
+                    }
+                },
+            ],
+
+            //去掉搜索框
+            "searching": false,
+            //每页显示的条数
+            "lengthMenu": [3, 6, 9],
+            "language": {
+                "url": "/js/dataTable/Chinese.json"
+            }
+
+
+        });
+    }
+
+    /**
+     * 条件查询传递参数
+     */
+    function search() {
+        var v_productName = $("#productName").val();
+        var v_minPrice = $("#minPrice").val();
+        var v_maxPrice = $("#maxPrice").val();
+        var v_minEntryTime = $("#minEntryTime").val();
+        var v_maxEntryTime = $("#maxEntryTime").val();
+        var v_minUpdateTime = $("#minUpdateTime").val();
+        var v_maxUpdateTime = $("#maxUpdateTime").val();
+        var v_brandId = $("[name='brand.id']").val();
+        var param = {};
+        param.productName = v_productName;
+        param.minProductPrice = v_minPrice;
+        param.maxProductPrice = v_maxPrice;
+        param.minEntryTime = v_minEntryTime;
+        param.maxEntryTime = v_maxEntryTime;
+        param.minUpdateTime = v_minUpdateTime;
+        param.maxUpdateTime = v_maxUpdateTime;
+        param["brand.id"] = v_brandId
+        v_productTable.settings()[0].ajax.data = param;
+        //重新加载
+        v_productTable.ajax.reload();
+    }
+
+    /**
+     *   单个删除
+     */
+    function deleteProduct(id) {
+        bootbox.confirm({
+            message: "您确定要删除吗?",
+            size: "small",
+            title: "提示信息",
+            buttons: {
+                confirm: {
+                    label: '<span class="glyphicon glyphicon-ok"></span>确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '<span class="glyphicon glyphicon-remove"></span>取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/app/deleteProdute.jhtml",
+                        //dataType:"json",
+                        data: {"id": id},
+                        type: "post",
+                        async: true,
+                        success: function (res) {
+                            if (res.code == 200) {
+                                bootbox.alert({
+                                    message: '<span class="glyphicon glyphicon-ok"></span>删除成功',
+                                    size: 'small',
+                                    title: "提示信息"
+                                });
+                                search(1);
+                            } else {
+                                bootbox.alert({
+                                    message: '<span class="glyphicon glyphicon-exclamation-sign"></span>删除失败',
+                                    size: 'small',
+                                    title: "提示信息"
+                                });
+
+                            }
+                        }
+                    });
+                }
+            }
+        })
+
+    }
+
+    /**
+     * 添加商品
+     */
+    function toAddProduct(){//加载品牌信息
+        /!*bootbox弹框*!/
+        var v_AddProductDialog = bootbox.dialog({
+            title: '添加商品',
+            message: $("#addProduct").html(),
+            // size: 'large',
+            buttons: {
+                ok: {
+                    label: '<span class="glyphicon glyphicon-ok"></span>确定',
+                    className: 'btn-success',
+                    callback: function () {
+                        var param = {};
+                        param.productName = $("#add_productName", v_AddProductDialog).val();
+                        param.productPrice = $("#add_productPrice", v_AddProductDialog).val();
+                        param["brand.id"] = $("select[name='brandName']", v_AddProductDialog).val();
+                        $.ajax({
+                            url: "/app/addProduct.jhtml",
+                            type: "post",
+                            data: param,
+                            success: function (result) {
+                                if (result.code == 200) {
+                                    //刷新
+                                    search();
+                                } else {
+                                    bootbox.alert({
+                                        message: '<span class="glyphicon glyphicon-exclamation-sign"></span>添加失败',
+                                        size: 'small',
+                                        title: "提示信息"
+                                    });
+                                }
+                            }
+                        })
+                    }
+                },
+                cancel: {
+                    label: '<span class="glyphicon glyphicon-remove"></span>取消',
+                    className: 'btn-danger',
+                    callback: function () {
+                        //Example.show('Custom cancel clicked');
+                    }
+                }
+            },
+        });
+    }
+
+    /**
+     * 修改商品
+     */
+    function updateProduct(id) {
+        $.ajax({
+            type: "post",
+            url: "/app/findProduct.jhtml",
+            data: {"id": id},
+            success: function (result) {
+                var data = result.data;
+                //回显
+                $("#update_id",v_updateProductDialog).val(id);
+                $("#update_productName",v_updateProductDialog).val(data.productName);
+                $("#update_productPrice",v_updateProductDialog).val(data.productPrice);
+                $("select[name='brandName']",v_updateProductDialog).val(data.brand.id);
+            }
+        });
+        /*bootbox弹框*/
+        var v_updateProductDialog = bootbox.dialog({
+            title: '修改用户',
+            message: $("#updateProduct form").clone(),
+            // size: 'large',
+            buttons: {
+                ok: {
+                    label: '<span class="glyphicon glyphicon-ok"></span>确定',
+                    className: 'btn-success',
+                    callback: function () {
+                        var param = {};
+                        param.id = $("#update_id", v_updateProductDialog).val();
+                        param.productName = $("#update_productName", v_updateProductDialog).val();
+                        param.productPrice = $("#update_productPrice", v_updateProductDialog).val();
+                        param.brandId = $("select[name='brandName']", v_updateProductDialog).val();
+                        $.ajax({
+                            url: "/app/updateProduct.jhtml",
+                            type: "post",
+                            data: param,
+                            success: function (result) {
+                                if (result.code == 200) {
+                                    search();
+                                } else {
+                                    bootbox.alert({
+                                        message: '<span class="glyphicon glyphicon-exclamation-sign"></span>用户修改失败',
+                                        size: 'small',
+                                        title: "提示信息"
+                                    });
+                                }
+                            }
+                        })
+                    }
+                },
+                cancel: {
+                    label: '<span class="glyphicon glyphicon-remove"></span>取消',
+                    className: 'btn-danger',
+                    callback: function () {
+
+                    }
+                }
+            }
+
+        });
+
+
+    }
+
+    /**
+     * 点击变色复选框被选中 且翻页回显
+     */
+    var v_idArr = [];
+
+    function initCheckBox() {
+        $("#productTable tbody").on("click", "tr", function () {
+            //找到复选框
+            var v_checked = $(this).find("input[type='checkbox']")[0];
+            //如果被选中 说明已经是选中状态 否则取消选中状态 删除到数组中对应的值 取消行色
+            if (v_checked.checked) {
+                v_checked.checked = false;
+                $(this).css("background", "");
+                //删除数组中的元素
+                deleteidArr(v_checked.value);
+            } else {
+                //将值添加到数组中 复选框被选中 行变色
+                v_checked.checked = true;
+                $(this).css("background", "cornsilk");
+                v_idArr.push(v_checked.value);
+                console.log(v_idArr)
+            }
+
+        })
+    }
+
+    //删除数组中的元素
+    function deleteidArr(id) {
+        for (var i = v_idArr.length - 1; i >= 0; i--) {
+            if (id == v_idArr[i]) {
+                v_idArr.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    //复选框 行变色回显
+    function isExists(checkboxId) {
+        for (var i = 0; i < v_idArr.length; i++) {
+            if (checkboxId == v_idArr[i]) {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * 批量删除
+     */
+    function deleteMany() {
+        var v_ids = v_idArr.join(",")
+        if (v_ids.length > 1) {
+            bootbox.confirm({
+                message: "您确定要删除吗?",
+                size: "small",
+                title: "提示信息",
+                buttons: {
+                    confirm: {
+                        label: '<span class="glyphicon glyphicon-ok"></span>确定',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '<span class="glyphicon glyphicon-remove"></span>取消',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/app/deleteMany.jhtml",
+                            //dataType:"json",
+                            type: "post",
+                            data: {"ids": v_ids},
+                            success: function (res) {
+                                if (res.code == 200) {
+                                    bootbox.alert({
+                                        message: '<span class="glyphicon glyphicon-ok"></span>删除成功',
+                                        size: 'small',
+                                        title: "提示信息"
+                                    });
+                                    search(1);
+                                } else {
+                                    bootbox.alert({
+                                        message: '<span class="glyphicon glyphicon-exclamation-sign"></span>删除失败',
+                                        size: 'small',
+                                        title: "提示信息"
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            bootbox.alert({
+                message: '<span class="glyphicon glyphicon-hand-down"></span>请选择要删除的信息',
+                size: 'small',
+                title: "提示信息"
+            });
+        }
+
+    }
+
+
+</script>
+</html>

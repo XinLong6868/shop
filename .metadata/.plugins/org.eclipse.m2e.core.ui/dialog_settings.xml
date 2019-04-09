@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectWizardArchetypePage">
+		<item value="internal" key="catalog"/>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+		<list key="issueManagementUrl">
+		</list>
+		<list key="issueManagementSystem">
+		</list>
+		<list key="ciManagementUrl">
+		</list>
+		<list key="ciManagementSystem">
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+			<item value="E:\WorkSpase\Servers"/>
+			<item value="E:\WorkSpase\shop-admin-v4"/>
+			<item value="E:\WorkSpase\shop-admin-XinLong\pom.xml"/>
+			<item value="E:\WorkSpase\shop-admin-v5\pom.xml"/>
+			<item value="E:\WorkSpase\shop-admin-v2\src\com\fh\shop\backend\controller\user\UserCrotroller.java"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="groupId">
+			<item value="com.fh.shop.backend"/>
+			<item value="com.fh.shop"/>
+		</list>
+		<list key="package">
+			<item value="com.fh.shop.backend.d"/>
+			<item value="com.fh.shop.backend"/>
+			<item value="com.fh.shop.shop"/>
+			<item value="com.fh.shop"/>
+			<item value="com.fh.shop.sa"/>
+			<item value="com.fh.shop.shop_admin_mav"/>
+			<item value="com.fh.shop.shop_admin_maven"/>
+		</list>
+		<list key="artifactId">
+			<item value="shop-admin-Jpa"/>
+			<item value="d"/>
+			<item value="shop-admin-v6"/>
+			<item value="shop"/>
+			<item value="shop-admin-XinLong"/>
+			<item value="shop-admin-v4"/>
+			<item value="shop_admin_v4"/>
+			<item value="shop-admin-maven"/>
+			<item value="sa"/>
+			<item value="iuh"/>
+			<item value="shop-admin-a"/>
+			<item value="shop-admin-mav"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="1.0"/>
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+</section>

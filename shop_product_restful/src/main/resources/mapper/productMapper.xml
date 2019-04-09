@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.shop.backend.product.mapper.IProductMapper">
+	<!--where条件  -->
+	<sql id="productWhere">
+		<where>
+			<if test="productName!=null and productName!=''">
+				productName like concat('%',#{productName},'%')
+			</if>
+			<if test="minProductPrice!=null and minProductPrice>=0">
+				and price >=#{minProductPrice}
+			</if>
+			<if test="maxProductPrice!=null and maxProductPrice>=0">
+				and price &lt;=#{maxProductPrice}
+			</if>
+			<if test="minEntryTime!=null">
+				and entryTime >=#{minEntryTime}
+			</if>
+			<if test="maxEntryTime!=null">
+				and entryTime &lt;#{maxEntryTime}
+			</if>
+			<if test="minUpdateTime!=null">
+				and updateTime >=#{minUpdateTime}
+			</if>
+			<if test="maxUpdateTime!=null">
+				and updateTime &lt;#{maxUpdateTime}
+			</if>
+			<if test="brand.id!=null and brand.id!=-1">
+				and brandId =#{brand.id}
+			</if>
+
+		</where>
+	</sql>
+	<!--查看商品所有数据-->
+	<select id="findProductList" resultType="com.fh.shop.backend.product.po.Product" parameterType="com.fh.shop.backend.product.request.ProductRequest">
+		select ts.* from(
+		select p.id,productName,price productPrice,entryTime,updateTime,brandName "brand.brandName"
+		from t_product p left join t_brand b
+		on p.brandId=b.id
+		<include refid="productWhere"></include>
+		)
+		ts limit #{start},#{length}
+	</select>
+	<!-- 查询总条数 -->
+	<select id="findProductCount" resultType="long" parameterType="com.fh.shop.backend.product.request.ProductRequest">
+		select count(*)
+		from t_product p left join t_brand b
+		on p.brandId=b.id
+		<include refid="productWhere"></include>
+	</select>
+	<!--删除单条数据  -->
+	<delete id="deleteProduct" parameterType="int">
+		delete from t_product where id=#{value};
+	</delete>
+	<!--添加-->
+	<insert id="addProduct" parameterType="com.fh.shop.backend.product.po.Product">
+		insert into t_product(
+	productName,price,entryTime,updateTime,brandId
+	) values (
+	#{productName},#{productPrice},#{entryTime},#{updateTime},#{brand.id})
+	</insert>
+	<!-- 修改回显 -->
+	<select id="findProduct" parameterType="int" resultType="com.fh.shop.backend.product.po.Product">
+		select id,productName,price productPrice,brandId "brand.id" from t_product  where id=#{value};
+	</select>
+	<!--修改-->
+	<update id="updateProduct" parameterType="com.fh.shop.backend.product.po.Product">
+		update t_product set
+		 productName=#{productName},price=#{productPrice},updateTime=#{updateTime},brandId=#{brandId}
+		 where id=#{id}
+	</update>
+	<!--批量删除-->
+	<delete id="deleteMany">
+		delete from t_product where id in
+		<foreach collection="list" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

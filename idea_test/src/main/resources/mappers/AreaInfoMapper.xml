@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.area.IAreaMapper">
+	<!-- 将表里面的字段和对应的javabean中的属性进行映射 -->
+	<!-- type指明javabean -->
+	<select id="findAreaList" resultType="areaInfo">
+		select id,areaName,remark,pid from t_area
+	</select>
+
+	<insert id="addListAreaInfo" parameterType="areaInfo">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into t_area (areaName,remark,pid) values (#{areaName},#{remark},#{pid})
+	</insert>
+
+	<delete id="deleteAreaInfo">
+		delete from t_area where id in
+		<foreach collection="list" separator="," open="(" close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="updateListAreaInfo" parameterType="areaInfo">
+		update t_area set areaName=#{areaName},remark=#{remark} where id=#{id}
+	</update>
+</mapper>

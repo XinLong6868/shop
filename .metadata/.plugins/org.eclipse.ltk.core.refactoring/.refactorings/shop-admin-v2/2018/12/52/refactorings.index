@@ -1,0 +1,31 @@
+1545565421104	Delete element
+1545569825739	Rename resource 'add.jsp'
+1545571778391	Copy files
+1545573322066	Copy files
+1545573810139	Copy compilation units
+1545573817960	Copy compilation unit
+1545659875739	Copy file
+1545659882080	Copy file
+1545826344438	Extract local variable 'modelAndView'
+1545830237950	Delete element
+1545831660171	Move 'common' to 'WEB-INF'
+1545895793308	Move compilation unit
+1545898411610	Extract local variable 'string'
+1545898441821	Extract local variable 'string'
+1545901573753	Copy files
+1545901633097	Copy file
+1545907254111	Copy file
+1545907561051	Rename package 'com.fh.shop.backend.biz.backend'
+1545907688049	Rename package 'com.fh.shop.backend.controller.backend'
+1545907692770	Move compilation unit
+1545907708696	Rename package 'com.fh.shop.backend.po.backend'
+1545907718046	Move compilation unit
+1545907728537	Rename package 'com.fh.shop.backend.mapper.backend'
+1545907886574	Copy file
+1545907900766	Rename resource 'productPage.jsp'
+1545908239619	Rename type 'IprandMapper'
+1545908281766	Rename type 'IbrandService'
+1545908289208	Rename type 'IbrandServiceImpl'
+1545908614282	Rename resource 'band'
+1545910191681	Rename resource 'list.jsp'
+1545977749022	Extract local variable 'string'

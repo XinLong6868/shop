@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.api.member.mapper.IMemberMapper">
+
+    <insert id="addMember" parameterType="com.fh.shop.api.member.po.Member">
+        insert into t_member (userName,phone,email,password,birthday,regTime,lastLoginTime)
+        values (#{userName},#{phone},#{email},#{password},#{birthday},#{regTime},#{lastLoginTime})
+  </insert>
+    
+    
+    <select id="findUserByUserName" parameterType="string" resultType="com.fh.shop.api.member.po.Member">
+        select userName,phone,email,password,birthday,regTime,lastLoginTime from t_member
+        where userName = #{value}
+    </select>
+</mapper>

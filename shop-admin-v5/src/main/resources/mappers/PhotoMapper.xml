@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.backend.mapper.photo.IPhotoMapper">
+
+		<resultMap id="photoMap" type="photoInfo">
+			<result column="id" property="id"></result>
+			<result column="photoPath" property="photoPath"></result>
+			<result column="productId" property="productId"></result>
+		</resultMap>
+
+		<!-- 添加子图-->
+		<insert id="addPhotoInfo" parameterType="photoInfo">
+			insert into t_photo (photoPath,productId) values (#{photoPath},#{product.id})
+		</insert>
+
+		<!-- 查看子图-->
+		<select id="findProductList" parameterType="int" resultType="photoInfo">
+			select id,photoPath from t_photo where productId=#{value};
+		</select>
+		<!--删除数据库中的已经从页面上删除的图片id-->
+		<delete id="deleteChildImage" parameterType="integer">
+			delete from t_photo where id in
+			<foreach collection="list" item="asdf" open="(" close=")" separator=",">
+				#{asdf}
+			</foreach>
+		</delete>
+
+
+</mapper>

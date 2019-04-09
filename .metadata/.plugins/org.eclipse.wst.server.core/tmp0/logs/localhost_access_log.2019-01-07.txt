@@ -1,0 +1,11 @@
+127.0.0.1 - - [07/Jan/2019:15:54:15 +0800] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:23 +0800] "GET /product/toAddProduct.action HTTP/1.1" 200 860
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:23 +0800] "GET /favicon.ico HTTP/1.1" 404 973
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:49 +0800] "POST /product/addProduct.action HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:49 +0800] "GET /product/list.action HTTP/1.1" 200 7885
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:49 +0800] "GET /My97DatePicker/WdatePicker.js HTTP/1.1" 200 10471
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:55:49 +0800] "GET /My97DatePicker/skin/WdatePicker.css HTTP/1.1" 200 192
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:56:01 +0800] "POST /product/list.action HTTP/1.1" 200 1560
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:15:56:02 +0800] "POST /product/list.action HTTP/1.1" 200 2663
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:16:20:05 +0800] "GET /user/login.jsp HTTP/1.1" 404 979
+0:0:0:0:0:0:0:1 - - [07/Jan/2019:16:20:10 +0800] "GET /product/list.action HTTP/1.1" 200 7885
